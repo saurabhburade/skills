@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "orchestrate-parallel-work": {
+      "source": "saurabhburade/skills",
+      "sourceType": "github",
+      "skillPath": "skills/orchestrate-parallel-work/SKILL.md",
+      "computedHash": "62085880a6201b648809a98c46cad3b9a6b0b561b3e4a3acfb4d762e7a898250"
+    },
+    "react-code-quality-check": {
+      "source": "saurabhburade/skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-code-quality-check/SKILL.md",
+      "computedHash": "529f98a8b3880490c2444b9c506552c324015ec84152b906e36fa5222fa26abd"
+    }
+  }
+}
