@@ -5,9 +5,11 @@ collections, magic numbers, constant placement, comments, and performance work.
 
 ## Duplication and abstraction
 
-Classify repetition before removing it. Repeated JSX with the same structure and
-different data is often clearer as data-driven rendering. Similar-looking code with
-different behavior may be better left explicit.
+Classify repetition before removing it. Explicitly inspect repeated sibling
+component invocations, even when their shared component is already extracted.
+Prefer data-driven rendering when they represent one repeated concept and differ
+only in props. Similar-looking code with different behavior may be better left
+explicit.
 
 Do not share a collection solely because unrelated UI structures currently have
 the same count or shape. Give independently evolving concepts their own meaningful
@@ -26,6 +28,33 @@ hooks, render helpers, and configuration objects that merely rename a few obviou
 lines or expose internal implementation choices.
 
 ## Components and functions
+
+### Repeated component configuration
+
+For repeated cards, charts, actions, or similar siblings with the same component
+contract, prefer a named configuration array and one `.map()` over copied JSX.
+In TypeScript, check the entries against the component's prop contract using
+existing types or inference; avoid assertions that conceal incompatible props.
+This consolidates the repeated invocation, not the component implementation.
+For example, several doughnut charts that vary only in data, labels, notes, and
+empty-state text are one configuration family; daily-series charts can remain
+a separate family rather than sharing a generic chart dispatcher.
+
+Keep prop-derived entries within the component or an existing pure helper; use
+file-local definitions only for genuinely static configuration. Preserve all prop
+values, optional-prop semantics, display order, calculation timing, and conditions.
+Use stable concept IDs as keys rather than generating IDs during render. Inspect
+how regrouping children affects reconciliation and state preservation, especially
+when mapped groups sit beside other stateful siblings. Do not add wrappers or call
+Hooks inside the map.
+
+In review mode, report a clear opportunity; in refactor mode, apply it when the
+contract can be preserved and the result is easier to maintain. Keep explicit JSX
+when configuration would need substantial branching, obscure distinct behavior,
+or complicate types. Fewer lines are not required, and a configuration array alone
+is not evidence of a performance improvement.
+
+### Extraction boundaries
 
 Create a component for a meaningful UI concept, reusable behavior, an independently
 understandable section, a useful server/client boundary, or complex UI that benefits

@@ -135,6 +135,9 @@ Within the affected scope, confirm:
 - Every ref has a DOM, imperative, or persistent mutable purpose.
 - Every memoization boundary has a concrete benefit.
 - Component and module boundaries express meaningful responsibilities.
+- Repeated sibling component invocations were checked for data-driven rendering;
+  shared prop-only variation is consolidated when it improves maintainability
+  without changing behavior or component identity across updates.
 - Non-obvious literals and comments were reviewed; extracted constants have clear
   meaning and live at the narrowest useful scope.
 - Client boundaries exist only where client capabilities are required.
