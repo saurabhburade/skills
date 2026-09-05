@@ -1,0 +1,7 @@
+interface:
+  display_name: "React Code Quality Check"
+  short_description: "Simplify React and Next.js code safely"
+  default_prompt: "Use $react-code-quality-check to review and simplify this React or Next.js code while preserving behavior."
+
+policy:
+  allow_implicit_invocation: false

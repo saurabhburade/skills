@@ -1,0 +1,17 @@
+{
+  "name": "skills",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Our composable agent skills",
+  "type": "module",
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "new:skill": "node scripts/new-skill.mjs",
+    "validate": "node scripts/validate-skills.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "pnpm validate && pnpm test"
+  }
+}
