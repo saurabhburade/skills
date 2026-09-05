@@ -20,6 +20,16 @@ Do not weaken, delete, or rewrite a test merely to make changed behavior pass. T
 updates are appropriate only when they preserve the same contract while improving
 coverage or adapting to a behavior-preserving structural change.
 
+## Preserve appearance; do not review styling
+
+Code cleanup is not a styling or design audit. Preserve existing classes, CSS,
+tokens, layout, copy, and animation; do not make styling changes unless explicitly
+requested as separate work. Unchanged classes alone do not prove visual equivalence:
+DOM nesting, wrappers, and element order can affect layout and selectors. When a
+structural refactor could affect presentation, verify the affected states and
+viewports with existing tools or state the verification gap. Preserve accessibility
+semantics and loading behavior rather than redesigning them.
+
 ## Do not change packages without an explicit request
 
 Do not install, add, remove, replace, or upgrade a package unless the user explicitly
@@ -36,6 +46,11 @@ installation or dependency edit.
 Avoid rewrites, framework migrations, visual redesigns, unrelated formatting, broad
 renames, and speculative cleanup. Make the smallest coherent change that improves
 the requested code while honoring the existing contract.
+
+Reuse the existing file structure. Unless already explicitly authorized, propose
+the location and ask before creating shared files or folders, moving files, or
+otherwise reorganizing the code. Continue safe local cleanup while that choice is
+pending; do not impose `types.ts`, `constants.ts`, `config.ts`, or `theme.ts` files.
 
 Inspect the final diff for incidental changes. If the task cannot be completed
 within these guardrails, state the specific conflict and leave the restricted change

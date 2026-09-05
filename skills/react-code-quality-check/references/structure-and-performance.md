@@ -5,11 +5,17 @@ collections, magic numbers, constant placement, comments, and performance work.
 
 ## Duplication and abstraction
 
-Classify repetition before removing it. Explicitly inspect repeated sibling
-component invocations, even when their shared component is already extracted.
-Prefer data-driven rendering when they represent one repeated concept and differ
-only in props. Similar-looking code with different behavior may be better left
-explicit.
+Classify repetition before removing it. Prioritize eliminating duplicated component
+implementations and logic over converting repeated calls into configuration.
+Explicitly inspect sibling component invocations too, but use data-driven rendering
+only when it makes the repeated concept easier to understand and maintain.
+Similar-looking code with different behavior may be better left explicit.
+
+Also inspect repeated calculations, mappings, and business rules. Reuse a named
+derived value or a small pure helper when the same logic should change together;
+preserve input differences, evaluation conditions, ordering, and fallback behavior.
+Inspect consumers before changing a shared helper or configuration so local cleanup
+does not alter unrelated behavior.
 
 Do not share a collection solely because unrelated UI structures currently have
 the same count or shape. Give independently evolving concepts their own meaningful
@@ -32,13 +38,19 @@ lines or expose internal implementation choices.
 ### Repeated component configuration
 
 For repeated cards, charts, actions, or similar siblings with the same component
-contract, prefer a named configuration array and one `.map()` over copied JSX.
+contract, consider a named configuration array and one `.map()` when it simplifies
+editing the group or centralizes a real shared definition. Keep direct JSX when an
+array merely relocates props, adds indirection, or obscures row-specific logic.
+In particular, do not create per-row configuration arrays solely to map a small,
+fixed set of already-extracted cells. Allocation alone is not evidence of a
+performance problem; compare readability and total code across the change.
 In TypeScript, check the entries against the component's prop contract using
 existing types or inference; avoid assertions that conceal incompatible props.
 This consolidates the repeated invocation, not the component implementation.
-For example, several doughnut charts that vary only in data, labels, notes, and
-empty-state text are one configuration family; daily-series charts can remain
-a separate family rather than sharing a generic chart dispatcher.
+For example, duplicated doughnut-card implementations may benefit more from sharing
+their chart-and-legend structure than from mapping their callers. Preserve real
+differences in formatting, exports, empty states, and styling; do not build a generic
+chart dispatcher with many switches simply to combine distinct components.
 
 Keep prop-derived entries within the component or an existing pure helper; use
 file-local definitions only for genuinely static configuration. Preserve all prop
@@ -106,6 +118,11 @@ Use types that communicate domain intent. Correct types at the source before add
 assertions, non-null operators, or elaborate generics. Narrow uncertain values with
 control flow and model valid states so inconsistent combinations are hard to create.
 
+Preserve known domain types instead of weakening them to generic records or hiding
+them behind assertions. Keep compatibility handling only where a demonstrated input
+contract needs it; do not remove accepted fallbacks or add a normalization layer
+merely to satisfy a pattern.
+
 Choose the collection operation that states the intent:
 
 - `some` for existence;
@@ -160,7 +177,13 @@ that encodes a domain status may still deserve a name. Repeated equal values are
 not necessarily the same concept; keep unrelated policies separate even when both
 happen to use `300` today.
 
-## Where constants belong
+## Where definitions belong
+
+Keep types, constants, configuration, and helpers local by default. Short
+prop-dependent arrays can stay inline; static definitions may live at file level
+when that improves readability. New array allocation is not itself a render trigger
+or a reason to add memoization. Use existing shared files only when ownership and
+reuse justify it, and follow the reorganization approval rule in the guardrails.
 
 Search for an existing domain constant, configuration value, or design token before
 introducing another source of truth. Reuse it only when its meaning, units, type,

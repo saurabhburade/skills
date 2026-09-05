@@ -6,7 +6,7 @@ description: Review and refactor React and Next.js code for simpler state, effec
 
 # React Code Quality Check
 
-Improve code through focused, behavior-preserving changes. Optimize for
+Reduce code complexity while preserving functionality and appearance. Optimize for
 correctness, clear intent, readability, maintainability, simplicity, and then
 measured performance. A smaller diff is preferable when it achieves the same
 result with less risk.
@@ -35,6 +35,11 @@ framework upgrade.
 Do not refactor solely because code differs from personal style, is slightly
 verbose, repeats two similar lines, could use newer syntax, or a fashionable
 abstraction exists. Fewer lines alone are not an acceptance criterion.
+
+Reduce lines of code by removing unnecessary work and genuine duplication, not by
+compressing readable code. Correctness and readability take priority over line
+count. Assess the whole change, including new helpers, configuration, types, and
+files; moving JSX elsewhere is not a reduction by itself.
 
 ## Simplify in priority order
 
@@ -67,9 +72,6 @@ matches the affected code:
 - For duplication, abstractions, components, TypeScript, data structures, magic
   numbers, constant placement, comments, and performance, read
   [references/structure-and-performance.md](references/structure-and-performance.md).
-- For responsive layout, skeletons, loading-state parity, or accessibility concerns
-  in the affected components, read
-  [references/ui-layout-and-loading.md](references/ui-layout-and-loading.md).
 
 Read multiple references only when the requested work crosses those concerns.
 When an API's behavior is uncertain or version-sensitive, verify it against the
@@ -82,6 +84,10 @@ Prefer direct code when an abstraction would hide a small operation. Extract a
 component, hook, function, or module when it represents a meaningful concept,
 creates a useful boundary, or centralizes behavior that should change together.
 Conceptual similarity matters more than line count or occurrence count.
+
+Remove unnecessary indirection when it makes simple changes harder. Do not replace
+direct code with wrappers, configuration layers, or file splitting that require more
+navigation without a concrete reduction in complexity.
 
 Do not add state, Effects, refs, memoization, Context, dynamic imports, Suspense,
 or `"use client"` by habit. Each should solve a specific requirement visible in
@@ -136,13 +142,14 @@ Within the affected scope, confirm:
 - Every memoization boundary has a concrete benefit.
 - Component and module boundaries express meaningful responsibilities.
 - Repeated sibling component invocations were checked for data-driven rendering;
-  shared prop-only variation is consolidated when it improves maintainability
-  without changing behavior or component identity across updates.
+  configuration is used only when it simplifies the whole implementation, not
+  merely shortens JSX, and preserves behavior and component identity across updates.
 - Non-obvious literals and comments were reviewed; extracted constants have clear
   meaning and live at the narrowest useful scope.
 - Client boundaries exist only where client capabilities are required.
 - Independent operations start together while real dependencies remain ordered.
-- The result is easier to understand and preserves the intended behavior.
+- The result is easier to understand and modify without changing functionality or
+  appearance; fewer lines or more files alone do not count as improvement.
 - Relevant verification passed, with any gaps or risks stated explicitly.
 
 For a review, assess both requirements (missing behavior, regressions, scope creep)
