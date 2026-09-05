@@ -67,6 +67,9 @@ matches the affected code:
 - For duplication, abstractions, components, TypeScript, data structures, magic
   numbers, constant placement, comments, and performance, read
   [references/structure-and-performance.md](references/structure-and-performance.md).
+- For responsive layout, skeletons, loading-state parity, or accessibility concerns
+  in the affected components, read
+  [references/ui-layout-and-loading.md](references/ui-layout-and-loading.md).
 
 Read multiple references only when the requested work crosses those concerns.
 When an API's behavior is uncertain or version-sensitive, verify it against the

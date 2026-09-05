@@ -9,6 +9,10 @@ Classify repetition before removing it. Repeated JSX with the same structure and
 different data is often clearer as data-driven rendering. Similar-looking code with
 different behavior may be better left explicit.
 
+Do not share a collection solely because unrelated UI structures currently have
+the same count or shape. Give independently evolving concepts their own meaningful
+names and keep their definitions local unless they share a real contract.
+
 Consider an abstraction when the behavior is genuinely shared, its name expresses
 a useful concept, its interface is simpler than the implementation, and future
 changes should happen together. Occurrence count is a signal, not a rule.
@@ -97,6 +101,18 @@ pass materially improves cost. Do not combine passes as a micro-optimization whe
 it obscures intent.
 
 ## Magic numbers and repeated literals
+
+### Numeric input contracts
+
+For count, limit, index, or size inputs, compare the declared type with actual
+callers and runtime behavior. Check relevant boundaries: omitted and zero values,
+negative or fractional numbers, non-finite values, and inputs beyond a fixed
+collection's capacity. A `number` type alone does not define the supported range.
+Distinguish a demonstrated caller failure from a latent API ambiguity. Document an
+established contract, but do not silently clamp, reject, round, expand rendering,
+or narrow public types during cleanup; those decisions need explicit scope.
+
+### Literal scan
 
 Scan the affected code for unexplained numeric values and repeated strings,
 especially durations, retry counts, limits, thresholds, conversion factors, storage
