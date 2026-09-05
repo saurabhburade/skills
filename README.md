@@ -3,7 +3,7 @@
 A collection of reusable agent skills for Codex and Claude Code. Install the
 skills you need, then invoke them in your project.
 
-## Installation (30-second setup)
+## Installation
 
 ### 1. Install the skills
 
