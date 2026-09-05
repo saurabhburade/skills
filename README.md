@@ -1,61 +1,54 @@
 # Skills
 
-A repository for building, reviewing, and maintaining our own agent skills.
+A collection of reusable agent skills for Codex and Claude Code. Install the
+skills you need, then invoke them in your project.
 
-Each skill is focused and self-contained, with its instructions and supporting
-resources bundled together. Skills live in `skills/`; `.agents/skills` points to
-that directory so Codex can discover them while working in this repo.
+## Installation (30-second setup)
 
-## Create a skill
+### 1. Install the skills
 
-```bash
-pnpm new:skill -- my-skill \
-  --description "Explain what the skill does and when it should activate."
-```
-
-The generator refuses to overwrite an existing directory. It creates a
-deliberately unfinished `SKILL.md`; replace its `TODO` before validation will
-pass. Add only the resource directories the skill needs:
+With Node.js and Git installed, run this from your project directory:
 
 ```bash
-pnpm new:skill -- my-skill \
-  --description "Use when ..." \
-  --resources scripts references assets
+npx skills@latest add saurabhburade/skills
 ```
 
-Use `--explicit-only` for a skill that should run only when a person invokes it.
-This sets Claude Code's `disable-model-invocation: true` frontmatter and Codex's
-`policy.allow_implicit_invocation: false` in `agents/openai.yaml`. It does not
-install the skill into either agent.
+Choose the skills you want and the agents you use, including Codex or Claude
+Code. The [skills CLI](https://github.com/vercel-labs/skills#install-a-skill)
+handles installation.
 
-## Verify the repository
+To install just one skill:
 
 ```bash
-pnpm validate
-pnpm test
+npx skills@latest add saurabhburade/skills --skill react-code-quality-check
 ```
 
-Validation checks naming, required frontmatter, duplicate names, unfinished
-scaffolds, and symlinks that escape the repository. The tooling uses Node's
-built-in APIs and has no third-party runtime dependencies.
+Add `--global` to install for use across all your projects.
 
-## Layout
+### 2. Use a skill
+
+Send a prompt with the installed skill's name in your coding agent.
+
+In Codex:
 
 ```text
-.
-|-- .agents/skills -> ../skills
-|-- skills/<skill-name>/
-|   |-- SKILL.md
-|   |-- agents/openai.yaml   optional UI metadata and invocation policy
-|   |-- scripts/             optional deterministic helpers
-|   |-- references/          optional on-demand guidance
-|   `-- assets/              optional output resources
-|-- scripts/
-`-- tests/
+$react-code-quality-check Review and simplify this React project while preserving behavior.
 ```
 
-See the official [Codex skill authoring documentation](https://learn.chatgpt.com/docs/build-skills)
-for discovery behavior and supported metadata.
+In Claude Code:
+
+```text
+/react-code-quality-check Review and simplify this React project while preserving behavior.
+```
+
+Replace the name with `orchestrate-parallel-work` to coordinate independent
+workstreams. The React code quality skill requires explicit invocation.
+
+## Update installed skills
+
+```bash
+npx skills@latest update
+```
 
 ## Available skills
 
