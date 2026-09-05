@@ -59,6 +59,10 @@ for discovery behavior and supported metadata.
 
 ## Available skills
 
+- [orchestrate-parallel-work](skills/orchestrate-parallel-work/SKILL.md):
+  Coordinate independent agent work in Fast mode and dynamically route each slice
+  to an efficient model profile across supported hosts, recovering safely from
+  unavailable profiles.
 - [react-code-quality-check](skills/react-code-quality-check/SKILL.md): Review and
   refactor React and Next.js code for clarity, sound state and Effect usage,
   intentional server/client boundaries, and evidence-based performance.

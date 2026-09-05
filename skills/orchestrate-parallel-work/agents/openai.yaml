@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orchestrate Parallel Work"
+  short_description: "Run Fast parallel work with adaptive model routing"
+  default_prompt: "Use $orchestrate-parallel-work to split this request into independent slices, require Fast execution for every worker, route each to the most efficient capable model profile, and recover safely from unavailable profiles."
